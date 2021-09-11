@@ -1,9 +1,9 @@
 package com.ftgo.RestaurantService;
 
+import com.ftgo.RestaurantService.domain.Money;
 import com.ftgo.RestaurantService.domain.restaurant.MenuItem;
 import com.ftgo.RestaurantService.domain.restaurant.RestaurantMenu;
 import com.ftgo.RestaurantService.domain.restaurant.entity.Restaurant;
-import com.ftgo.RestaurantService.domain.restaurant.entity.RestaurantMenuOnDB;
 import com.ftgo.RestaurantService.domain.restaurant.repository.RestaurantRepository;
 import com.ftgo.RestaurantService.event.RestaurantCreated;
 import com.ftgo.RestaurantService.event.RestaurantDomainEventPublisher;
@@ -27,7 +27,10 @@ public class RestaurantService {
     }
 
     public Restaurant create(CreateRestaurantRequest request) {
-        RestaurantMenu menu = RestaurantMenu.create(request.getMenu());
+        RestaurantMenu menu = RestaurantMenu.create(request.getMenu().stream()
+                .map(it -> MenuItem.create(it.getId(), it.getName(),
+                        Money.create(it.getPrice().getValue())))
+                .collect(Collectors.toList()));
         Restaurant restaurant = new Restaurant(request.getName(), menu.transformEmbeddable());
         restaurantRepository.save(restaurant);
         domainEventPublisher.publish(restaurant, Collections.singletonList(

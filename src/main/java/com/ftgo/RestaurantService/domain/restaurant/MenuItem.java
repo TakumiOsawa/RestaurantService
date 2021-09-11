@@ -16,7 +16,7 @@ public class MenuItem {
         this.price = price;
     }
 
-    public MenuItem create(String id, String name, Money price) {
+    public static MenuItem create(String id, String name, Money price) {
         return new MenuItem(id, name, price);
     }
 

@@ -1,10 +1,10 @@
 package com.ftgo.RestaurantService.domain;
 
 import com.ftgo.RestaurantService.domain.restaurant.entity.MoneyOnDB;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
 public class Money {
+    @Getter
     private final long value;
 
     /**
