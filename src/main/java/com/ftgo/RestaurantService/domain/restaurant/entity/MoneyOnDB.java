@@ -1,13 +1,13 @@
 package com.ftgo.RestaurantService.domain.restaurant.entity;
 
-import lombok.Getter;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
+@Data
 public class MoneyOnDB {
-    @Getter
     @Column(name = "price")
     private long value;
 
