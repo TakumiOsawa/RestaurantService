@@ -1,6 +1,9 @@
 package com.ftgo.RestaurantService;
 
+import com.ftgo.RestaurantService.domain.restaurant.MenuItem;
+import com.ftgo.RestaurantService.domain.restaurant.RestaurantMenu;
 import com.ftgo.RestaurantService.domain.restaurant.entity.Restaurant;
+import com.ftgo.RestaurantService.domain.restaurant.entity.RestaurantMenuOnDB;
 import com.ftgo.RestaurantService.domain.restaurant.repository.RestaurantRepository;
 import com.ftgo.RestaurantService.event.RestaurantCreated;
 import com.ftgo.RestaurantService.event.RestaurantDomainEventPublisher;
@@ -10,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional
 public class RestaurantService {
@@ -23,11 +27,11 @@ public class RestaurantService {
     }
 
     public Restaurant create(CreateRestaurantRequest request) {
-        Restaurant restaurant = new Restaurant(request.getName(),
-                request.getMenu().transformEmbeddable());
+        RestaurantMenu menu = RestaurantMenu.create(request.getMenu());
+        Restaurant restaurant = new Restaurant(request.getName(), menu.transformEmbeddable());
         restaurantRepository.save(restaurant);
         domainEventPublisher.publish(restaurant, Collections.singletonList(
-                new RestaurantCreated(request.getName(), request.getAddress(), request.getMenu())));
+                new RestaurantCreated(request.getName(), request.getAddress(), menu)));
         return restaurant;
     }
 

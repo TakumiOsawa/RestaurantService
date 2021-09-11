@@ -15,7 +15,7 @@ public class RestaurantMenu {
         this.menuItems = menuItems;
     }
 
-    public RestaurantMenu create(List<MenuItem> menuItems) {
+    public static RestaurantMenu create(List<MenuItem> menuItems) {
         return new RestaurantMenu(menuItems);
     }
 
