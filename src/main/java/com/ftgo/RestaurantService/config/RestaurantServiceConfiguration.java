@@ -21,13 +21,13 @@ import org.springframework.context.annotation.Import;
         SagaParticipantConfiguration.class })
 public class RestaurantServiceConfiguration {
     @Bean
-    public RestaurantService orderService(RestaurantRepository restaurantRepository,
+    public RestaurantService restaurantService(RestaurantRepository restaurantRepository,
                                           RestaurantDomainEventPublisher eventPublisher) {
         return new RestaurantService(restaurantRepository, eventPublisher);
     }
 
     @Bean
-    public RestaurantDomainEventPublisher orderAggregateEventPublisher(DomainEventPublisher eventPublisher) {
+    public RestaurantDomainEventPublisher restaurantAggregateEventPublisher(DomainEventPublisher eventPublisher) {
         return new RestaurantDomainEventPublisher(eventPublisher);
     }
 
